@@ -14,9 +14,7 @@
 3. `asset-tracker/supabase/schema.sql`
 4. 如需使用 Supabase RAG 表，再执行 `supabase/schema.sql`
 
-在 Authentication 中开启邮箱确认。网站已兼容 Supabase 免费项目默认的“确认注册链接”：用户点击邮件链接后，回到网站即可完成登录，不需要额外配置 SMTP。
-
-如果后续接入自定义 SMTP，也可以把注册邮件改为 6 位验证码模板（使用 Supabase 的 `{{ .Token }}` 变量）；本地账号模式仍支持验证码流程。
+在 Authentication → Sign In / Providers 中保持“Allow new users to sign up”开启，关闭“Confirm email”。用户使用邮箱和密码注册后会直接建立登录会话，不再发送确认邮件。
 
 ## 2. 配置网站环境变量
 
@@ -27,7 +25,7 @@ AUTH_SECRET=<openssl rand -hex 32>
 AUTH_STORAGE_MODE=supabase
 NEXT_PUBLIC_SUPABASE_URL=https://<project>.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=<service-role-key>
-EMAIL_VERIFICATION_REQUIRED=true
+EMAIL_VERIFICATION_REQUIRED=false
 NEXT_PUBLIC_CONTACT_EMAIL=<公开联系邮箱>
 ADMIN_EMAILS=<可以访问数据看板的邮箱，多个用英文逗号分隔>
 DEEPSEEK_API_KEY=<DeepSeek API key>
@@ -73,7 +71,7 @@ AUTH_SECRET=<与网站完全一致>
 
 ## 5. 旧数据迁移说明
 
-Supabase Auth 无法直接使用当前 SQLite 中的 scrypt 密码哈希。开始公开测试时，旧测试账号应重新注册并验证邮箱。资产数据迁移前需要先取得新 Supabase 用户 ID，再把旧组合的 `user_id` 映射到新 ID；不要把空 `user_id` 的历史组合直接导入生产库。
+Supabase Auth 无法直接使用当前 SQLite 中的 scrypt 密码哈希。开始公开测试时，旧测试账号应重新注册。资产数据迁移前需要先取得新 Supabase 用户 ID，再把旧组合的 `user_id` 映射到新 ID；不要把空 `user_id` 的历史组合直接导入生产库。
 
 ## 6. 发布门禁
 

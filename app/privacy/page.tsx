@@ -16,7 +16,7 @@ export default function PrivacyPage() {
           <div>
             <h2 className="text-base font-semibold text-slate-950">1. 我们收集什么</h2>
             <ul className="mt-2 list-disc space-y-1 pl-5">
-              <li>账号：邮箱、昵称、密码哈希（不可逆），用于注册、邮箱验证和登录。</li>
+              <li>账号：邮箱、昵称、密码哈希（不可逆），用于注册和登录。</li>
               <li>助手请求：你提交的问题和最近最多 8 条对话，用于生成本次回答；本站当前默认不建立长期对话档案。</li>
               <li>资产看板：你主动录入的组合、持仓与相关操作记录，按账号隔离存储。</li>
               <li>安全信息：IP 或其哈希、请求时间、额度和错误信息，用于防滥用与排障。</li>

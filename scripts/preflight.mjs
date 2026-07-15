@@ -21,7 +21,11 @@ const required = [
   ["AUTH_STORAGE_MODE", (value) => value === "supabase", "必须为 supabase"],
   ["NEXT_PUBLIC_SUPABASE_URL", (value) => /^https:\/\//.test(value), "必须为 HTTPS URL"],
   ["SUPABASE_SERVICE_ROLE_KEY", (value) => value.length >= 20, "不能为空"],
-  ["EMAIL_VERIFICATION_REQUIRED", (value) => value.toLowerCase() === "true", "必须为 true"],
+  [
+    "EMAIL_VERIFICATION_REQUIRED",
+    (value) => ["true", "false"].includes(value.toLowerCase()),
+    "必须明确设为 true 或 false",
+  ],
   ["NEXT_PUBLIC_CONTACT_EMAIL", (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), "必须为有效邮箱"],
   ["ADMIN_EMAILS", (value) => value.split(",").map((item) => item.trim()).filter(Boolean).length > 0 && value.split(",").every((item) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(item.trim())), "至少配置一个有效管理员邮箱"],
   ["AGENT_URL", (value) => /^https:\/\//.test(value), "生产环境必须使用 HTTPS"],

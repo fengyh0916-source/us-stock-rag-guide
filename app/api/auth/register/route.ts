@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: result.error }, { status: 400 });
   }
 
-  // 开发环境可关闭验证；生产环境默认必须先验证邮箱。
+  // 由 EMAIL_VERIFICATION_REQUIRED 决定注册后直接登录或进入邮箱验证。
   if (!isEmailVerificationRequired() || !result.needsVerification) {
     await recordProductEvent({
       request,
