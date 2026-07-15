@@ -1,4 +1,5 @@
 export const PRODUCT_EVENT_NAMES = [
+  "page_view",
   "agent_opened",
   "question_submitted",
   "answer_succeeded",
@@ -14,6 +15,7 @@ export const PRODUCT_EVENT_NAMES = [
 export type ProductEventName = (typeof PRODUCT_EVENT_NAMES)[number];
 
 export const CLIENT_EVENT_NAMES = [
+  "page_view",
   "agent_opened",
   "related_article_clicked",
   "asset_tracker_opened",
@@ -39,6 +41,10 @@ export type ProductEventProperties = {
 export type AnalyticsSummary = {
   total_events: number;
   active_actors: number;
+  page_views: number;
+  visitors: number;
+  today_page_views: number;
+  today_visitors: number;
   agent_opens: number;
   questions: number;
   answer_successes: number;
@@ -55,13 +61,22 @@ export type AnalyticsSummary = {
 export type AnalyticsDailyPoint = {
   day: string;
   active_actors: number;
+  page_views: number;
+  visitors: number;
   questions: number;
   successes: number;
   failures: number;
 };
 
+export type AnalyticsTopPage = {
+  page: string;
+  page_views: number;
+  visitors: number;
+};
+
 export type AnalyticsDashboard = {
   summary: AnalyticsSummary;
   daily: AnalyticsDailyPoint[];
+  top_pages: AnalyticsTopPage[];
   event_counts: Array<{ event_name: ProductEventName | string; count: number }>;
 };

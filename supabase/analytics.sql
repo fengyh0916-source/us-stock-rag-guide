@@ -26,6 +26,8 @@ create index if not exists idx_product_events_name_time
   on public.product_events (event_name, occurred_at desc);
 create index if not exists idx_product_events_actor_time
   on public.product_events (actor_key, occurred_at desc);
+create index if not exists idx_product_events_page_time
+  on public.product_events (event_name, page_slug, occurred_at desc);
 
 alter table public.product_events enable row level security;
 revoke all on table public.product_events from public, anon, authenticated;
@@ -53,6 +55,16 @@ as $$
     select
       count(*)::bigint as total_events,
       count(distinct actor_key)::bigint as active_actors,
+      count(*) filter (where event_name = 'page_view')::bigint as page_views,
+      count(distinct actor_key) filter (where event_name = 'page_view')::bigint as visitors,
+      count(*) filter (
+        where event_name = 'page_view'
+          and occurred_at >= date_trunc('day', now())
+      )::bigint as today_page_views,
+      count(distinct actor_key) filter (
+        where event_name = 'page_view'
+          and occurred_at >= date_trunc('day', now())
+      )::bigint as today_visitors,
       count(*) filter (where event_name = 'agent_opened')::bigint as agent_opens,
       count(*) filter (where event_name = 'question_submitted')::bigint as questions,
       count(*) filter (where event_name = 'answer_succeeded')::bigint as answer_successes,
@@ -71,6 +83,8 @@ as $$
     select
       occurred_at::date as day,
       count(distinct actor_key)::bigint as active_actors,
+      count(*) filter (where event_name = 'page_view')::bigint as page_views,
+      count(distinct actor_key) filter (where event_name = 'page_view')::bigint as visitors,
       count(*) filter (where event_name = 'question_submitted')::bigint as questions,
       count(*) filter (where event_name = 'answer_succeeded')::bigint as successes,
       count(*) filter (where event_name = 'answer_failed')::bigint as failures
@@ -83,10 +97,22 @@ as $$
     from base
     group by event_name
     order by count desc, event_name
+  ),
+  top_pages as (
+    select
+      coalesce(nullif(page_slug, ''), '/') as page,
+      count(*)::bigint as page_views,
+      count(distinct actor_key)::bigint as visitors
+    from base
+    where event_name = 'page_view'
+    group by coalesce(nullif(page_slug, ''), '/')
+    order by page_views desc, visitors desc, page
+    limit 8
   )
   select jsonb_build_object(
     'summary', coalesce((select to_jsonb(summary) from summary), '{}'::jsonb),
     'daily', coalesce((select jsonb_agg(to_jsonb(daily) order by day) from daily), '[]'::jsonb),
+    'top_pages', coalesce((select jsonb_agg(to_jsonb(top_pages) order by page_views desc, visitors desc) from top_pages), '[]'::jsonb),
     'event_counts', coalesce((select jsonb_agg(to_jsonb(event_counts) order by count desc) from event_counts), '[]'::jsonb)
   );
 $$;

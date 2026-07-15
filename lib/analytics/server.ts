@@ -7,6 +7,7 @@ import type {
   AnalyticsDashboard,
   AnalyticsDailyPoint,
   AnalyticsSummary,
+  AnalyticsTopPage,
   ProductEventName,
   ProductEventProperties,
 } from "@/lib/analytics/types";
@@ -14,6 +15,10 @@ import type {
 const EMPTY_SUMMARY: AnalyticsSummary = {
   total_events: 0,
   active_actors: 0,
+  page_views: 0,
+  visitors: 0,
+  today_page_views: 0,
+  today_visitors: 0,
   agent_opens: 0,
   questions: 0,
   answer_successes: 0,
@@ -145,6 +150,10 @@ function normalizeSummary(value: unknown): AnalyticsSummary {
   return {
     total_events: asNumber(source.total_events),
     active_actors: asNumber(source.active_actors),
+    page_views: asNumber(source.page_views),
+    visitors: asNumber(source.visitors),
+    today_page_views: asNumber(source.today_page_views),
+    today_visitors: asNumber(source.today_visitors),
     agent_opens: asNumber(source.agent_opens),
     questions: asNumber(source.questions),
     answer_successes: asNumber(source.answer_successes),
@@ -168,9 +177,25 @@ function normalizeDaily(value: unknown): AnalyticsDailyPoint[] {
     return [{
       day: source.day,
       active_actors: asNumber(source.active_actors),
+      page_views: asNumber(source.page_views),
+      visitors: asNumber(source.visitors),
       questions: asNumber(source.questions),
       successes: asNumber(source.successes),
       failures: asNumber(source.failures),
+    }];
+  });
+}
+
+function normalizeTopPages(value: unknown): AnalyticsTopPage[] {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item) => {
+    if (!item || typeof item !== "object") return [];
+    const source = item as Record<string, unknown>;
+    if (typeof source.page !== "string") return [];
+    return [{
+      page: source.page,
+      page_views: asNumber(source.page_views),
+      visitors: asNumber(source.visitors),
     }];
   });
 }
@@ -183,7 +208,7 @@ export async function getAnalyticsDashboard(days: number): Promise<{
   if (!analyticsStorageConfigured()) {
     return {
       configured: false,
-      data: { summary: EMPTY_SUMMARY, daily: [], event_counts: [] },
+      data: { summary: EMPTY_SUMMARY, daily: [], top_pages: [], event_counts: [] },
     };
   }
 
@@ -195,7 +220,7 @@ export async function getAnalyticsDashboard(days: number): Promise<{
   if (error) {
     return {
       configured: true,
-      data: { summary: EMPTY_SUMMARY, daily: [], event_counts: [] },
+      data: { summary: EMPTY_SUMMARY, daily: [], top_pages: [], event_counts: [] },
       error: error.message,
     };
   }
@@ -216,6 +241,7 @@ export async function getAnalyticsDashboard(days: number): Promise<{
     data: {
       summary: normalizeSummary(source.summary),
       daily: normalizeDaily(source.daily),
+      top_pages: normalizeTopPages(source.top_pages),
       event_counts: eventCounts,
     },
   };

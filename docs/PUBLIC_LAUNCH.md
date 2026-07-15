@@ -42,12 +42,12 @@ ASSET_TRACKER_API_URL=https://<site-domain>/asset-api
 
 ## 3. 开启免费数据统计
 
-1. 在 Vercel 项目中打开 **Analytics**，启用 Web Analytics。
-2. 在 Vercel 项目中打开 **Speed Insights**，启用真实性能统计。
-3. 重新部署。网站已在根布局接入官方 SDK，部署后会自动开始记录 PV、访客、来源和性能。
-4. 使用 `ADMIN_EMAILS` 中的账号登录，访问 `/admin/metrics` 查看 Agent 提问、成功率、耗时、文章点击和反馈。
+1. 在 Supabase SQL Editor 执行 `supabase/analytics.sql`。
+2. 确认 Vercel 环境变量 `ADMIN_EMAILS` 包含管理员登录邮箱并重新部署。
+3. 使用管理员账号登录，访问 `/admin/metrics` 查看 PV、UV、热门页面、Agent 漏斗与回答质量。
+4. 如需了解真实用户加载性能，可另外在 Vercel 打开 **Speed Insights**；它不是查看 PV/UV 的必要条件。
 
-Vercel Hobby 版不支持自定义事件，所以产品行为保存在 Supabase 免费数据库。产品事件不包含问题原文、邮箱、原始 IP 或持仓。
+页面访问和产品行为均保存在 Supabase 免费数据库，不包含问题原文、邮箱、原始 IP 或持仓。只有 `ADMIN_EMAILS` 中的登录账号可以访问站内数据看板；其他账号会得到 404。
 
 ## 4. 配置两个 Python 服务
 

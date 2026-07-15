@@ -32,7 +32,7 @@ export default function PrivacyPage() {
           <div>
             <h2 className="text-base font-semibold text-slate-950">3. 访问统计与产品分析</h2>
             <p className="mt-2">
-              本站使用 Vercel Web Analytics 和 Speed Insights 统计匿名页面访问与真实用户性能，并在 Supabase 保存结构化产品事件。产品事件仅保存经哈希处理的匿名标识、事件类型、耗时与数量，不保存问题原文、邮箱、原始 IP 或持仓。游客匿名标识按天变化，不能用于跨站跟踪。
+              本站在 Supabase 保存匿名页面访问与结构化产品事件，并使用 Vercel Speed Insights 了解真实用户性能。事件仅保存经哈希处理的匿名标识、页面路径、事件类型、耗时与数量，不保存问题原文、邮箱、原始 IP 或持仓。游客匿名标识按天变化，不能用于跨站跟踪。
             </p>
           </div>
           <div>

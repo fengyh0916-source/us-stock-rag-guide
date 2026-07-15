@@ -17,7 +17,7 @@
 ```mermaid
 flowchart LR
   U["用户"] --> W["Next.js 网站 / Vercel"]
-  W --> S["Supabase Auth + Postgres"]
+  W --> S["Supabase Auth + Postgres + PV/UV"]
   W --> A["FastAPI RAG Agent"]
   A --> K["BM25 知识库"]
   A --> L["DeepSeek API"]
@@ -31,7 +31,7 @@ flowchart LR
 | Web | Next.js 16, React 19, TypeScript, Tailwind CSS |
 | Agent | FastAPI, BM25, DeepSeek API, 流式输出 |
 | 数据与鉴权 | Supabase Auth, Postgres, RLS/用户隔离 |
-| 分析 | Vercel Web Analytics, Speed Insights, Supabase 产品事件 |
+| 分析 | Supabase PV/UV 与产品事件看板，Vercel Speed Insights |
 | 部署 | Vercel + Railway/Render |
 
 ## 评测结果
