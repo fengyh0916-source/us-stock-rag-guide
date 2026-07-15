@@ -5,7 +5,6 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
-DATA_DIR.mkdir(parents=True, exist_ok=True)
 DB_PATH = DATA_DIR / "portfolio.db"
 
 _raw_url = os.getenv("DATABASE_URL", "").strip()
@@ -22,6 +21,7 @@ if _raw_url:
     )
     USING_SQLITE = False
 else:
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
     DATABASE_URL = f"sqlite:///{DB_PATH}"
     engine = create_engine(
         DATABASE_URL,

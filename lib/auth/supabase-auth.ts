@@ -116,7 +116,7 @@ export async function resendSupabaseEmailCode(email: string) {
     type: "signup",
   });
   if (error) {
-    return { ok: false as const, error: "验证码发送失败，请稍后重试" };
+    return { ok: false as const, error: "确认邮件发送失败，请稍后重试" };
   }
   return { ok: true as const };
 }

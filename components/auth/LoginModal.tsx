@@ -6,8 +6,9 @@ import { LoaderCircle, X } from "lucide-react";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { LOGIN_REASON_COPY } from "@/lib/auth/constants";
 
-/** 与当前后端一致：默认仅邮箱+密码；若开启验证码则多一步 verify */
+/** 邮箱验证支持本地验证码与 Supabase 默认确认链接。 */
 type Mode = "login" | "register" | "verify";
+type VerificationMode = "code" | "link";
 
 // text-base(16px) 避免 iOS 聚焦输入框时整页放大
 const fieldClass =
@@ -35,6 +36,7 @@ export default function LoginModal() {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [devCode, setDevCode] = useState<string | null>(null);
+  const [verificationMode, setVerificationMode] = useState<VerificationMode>("code");
   const [busy, setBusy] = useState(false);
   const titleId = useId();
   const copy = LOGIN_REASON_COPY[loginReason] ?? LOGIN_REASON_COPY.general;
@@ -46,6 +48,7 @@ export default function LoginModal() {
     setError(null);
     setInfo(null);
     setDevCode(null);
+    setVerificationMode("code");
     setCode("");
     setPassword("");
     setDisplayName("");
@@ -69,10 +72,19 @@ export default function LoginModal() {
     return null;
   }
 
-  async function goVerify(targetEmail: string, maybeDevCode?: string) {
+  async function goVerify(
+    targetEmail: string,
+    maybeDevCode?: string,
+    nextVerificationMode: VerificationMode = "code",
+  ) {
     setEmail(targetEmail);
     setMode("verify");
-    setInfo("请输入发到邮箱的 6 位验证码");
+    setVerificationMode(nextVerificationMode);
+    setInfo(
+      nextVerificationMode === "link"
+        ? "请点击邮件中的确认链接，完成后返回此处"
+        : "请输入发到邮箱的 6 位验证码",
+    );
     if (maybeDevCode) {
       setDevCode(maybeDevCode);
     }
@@ -94,6 +106,7 @@ export default function LoginModal() {
           await goVerify(
             result.email || email.trim(),
             resent.ok ? resent.devCode : undefined,
+            resent.ok ? resent.verificationMode : "code",
           );
           return;
         }
@@ -118,11 +131,26 @@ export default function LoginModal() {
         if (!result.needsVerification) {
           return;
         }
-        await goVerify(result.email, result.devCode);
+        await goVerify(
+          result.email,
+          result.devCode,
+          result.verificationMode || "code",
+        );
         return;
       }
 
       // verify（仅当服务端开启邮箱验证时才会进入）
+      if (verificationMode === "link") {
+        const result = await login(email.trim(), password);
+        if (!result.ok) {
+          setError(
+            result.needsVerification
+              ? "尚未检测到邮箱确认，请先点击邮件中的链接"
+              : result.error,
+          );
+        }
+        return;
+      }
       const result = await verifyEmail(email.trim(), code.trim());
       if (!result.ok) {
         setError(result.error);
@@ -144,6 +172,9 @@ export default function LoginModal() {
         return;
       }
       setInfo(result.message || "验证码已重新发送");
+      if (result.verificationMode) {
+        setVerificationMode(result.verificationMode);
+      }
       if (result.devCode) {
         setDevCode(result.devCode);
       }
@@ -155,11 +186,19 @@ export default function LoginModal() {
   }
 
   const heading =
-    mode === "verify" ? "验证邮箱" : mode === "register" ? "注册" : "登录或注册";
+    mode === "verify"
+      ? verificationMode === "link"
+        ? "确认邮箱"
+        : "验证邮箱"
+      : mode === "register"
+        ? "注册"
+        : "登录或注册";
 
   const sub =
     mode === "verify"
-      ? `验证码将发送至 ${email}`
+      ? verificationMode === "link"
+        ? `确认邮件已发送至 ${email}`
+        : `验证码将发送至 ${email}`
       : mode === "register"
         ? "使用邮箱和密码创建账号，即可使用助手与资产看板"
         : copy.description;
@@ -284,7 +323,7 @@ export default function LoginModal() {
                   />
                 </div>
               </>
-            ) : (
+            ) : verificationMode === "code" ? (
               <div>
                 <label className="sr-only" htmlFor="auth-code">
                   验证码
@@ -303,6 +342,10 @@ export default function LoginModal() {
                   autoComplete="one-time-code"
                 />
               </div>
+            ) : (
+              <div className="rounded-2xl bg-sky-50 px-4 py-4 text-center text-sm leading-6 text-sky-950">
+                请在新页面打开邮件中的确认链接，然后返回此处继续。
+              </div>
             )}
 
             {info ? (
@@ -320,7 +363,13 @@ export default function LoginModal() {
 
             <button type="submit" disabled={busy} className={primaryBtnClass}>
               {busy ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden /> : null}
-              {mode === "login" ? "登录" : mode === "register" ? "注册" : "验证并登录"}
+              {mode === "login"
+                ? "登录"
+                : mode === "register"
+                  ? "注册"
+                  : verificationMode === "link"
+                    ? "我已完成邮箱确认"
+                    : "验证并登录"}
             </button>
 
             {mode === "verify" ? (
@@ -337,12 +386,13 @@ export default function LoginModal() {
                   type="button"
                   className="font-medium text-slate-500 hover:text-slate-800"
                   onClick={() => {
-                    setMode("login");
-                    setCode("");
-                    setError(null);
-                    setInfo(null);
-                    setDevCode(null);
-                  }}
+                  setMode("login");
+                  setCode("");
+                  setError(null);
+                  setInfo(null);
+                  setDevCode(null);
+                  setVerificationMode("code");
+                }}
                 >
                   返回登录
                 </button>

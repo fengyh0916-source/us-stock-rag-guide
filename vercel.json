@@ -1,5 +1,23 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nextjs",
-  "buildCommand": "npm run preflight:production && npm run build"
+  "buildCommand": "npm run preflight:production && npm run build",
+  "experimentalServices": {
+    "web": {
+      "entrypoint": ".",
+      "routePrefix": "/"
+    },
+    "agent": {
+      "entrypoint": "agent/backend/index.py",
+      "routePrefix": "/agent-api",
+      "maxDuration": 300,
+      "includeFiles": [
+        "agent/data/index/**"
+      ]
+    },
+    "asset_tracker_api": {
+      "entrypoint": "asset-tracker/backend/index.py",
+      "routePrefix": "/asset-api",
+      "maxDuration": 300
+    }
+  }
 }

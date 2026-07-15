@@ -5,6 +5,7 @@ export default defineConfig([
   ...nextVitals,
   globalIgnores([
     ".next/**",
+    ".next-build/**",
     "public/asset-tracker/**",
     "**/.venv/**",
     "**/node_modules/**",

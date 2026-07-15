@@ -14,7 +14,13 @@ import type { LoginReason, PublicUser } from "@/lib/auth/types";
 
 export type RegisterResult =
   | { ok: true; needsVerification: false }
-  | { ok: true; needsVerification: true; email: string; devCode?: string }
+  | {
+      ok: true;
+      needsVerification: true;
+      email: string;
+      devCode?: string;
+      verificationMode?: "code" | "link";
+    }
   | { ok: false; error: string };
 
 type AuthContextValue = {
@@ -44,7 +50,15 @@ type AuthContextValue = {
   ) => Promise<{ ok: true } | { ok: false; error: string }>;
   resendCode: (
     email: string,
-  ) => Promise<{ ok: true; devCode?: string; message?: string } | { ok: false; error: string }>;
+  ) => Promise<
+    | {
+        ok: true;
+        devCode?: string;
+        message?: string;
+        verificationMode?: "code" | "link";
+      }
+    | { ok: false; error: string }
+  >;
   logout: () => Promise<void>;
 };
 
@@ -155,6 +169,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         needsVerification?: boolean;
         email?: string;
         devCode?: string;
+        verificationMode?: "code" | "link";
         user?: PublicUser;
       };
       if (!res.ok) {
@@ -164,6 +179,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             needsVerification: true as const,
             email: data.email || email,
             devCode: data.devCode,
+            verificationMode: data.verificationMode,
           };
         }
         return { ok: false as const, error: data.error || "注册失败" };
@@ -179,6 +195,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           needsVerification: true as const,
           email: data.email || email,
           devCode: data.devCode,
+          verificationMode: data.verificationMode,
         };
       }
       return { ok: false as const, error: data.error || "注册失败" };
@@ -217,6 +234,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       error?: string;
       devCode?: string;
       message?: string;
+      verificationMode?: "code" | "link";
       ok?: boolean;
     };
     if (!res.ok) {
@@ -226,6 +244,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       ok: true as const,
       devCode: data.devCode,
       message: data.message,
+      verificationMode: data.verificationMode,
     };
   }, []);
 

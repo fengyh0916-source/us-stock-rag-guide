@@ -14,7 +14,9 @@
 3. `asset-tracker/supabase/schema.sql`
 4. 如需使用 Supabase RAG 表，再执行 `supabase/schema.sql`
 
-在 Authentication 中开启邮箱确认，并把注册邮件模板配置为包含 6 位 OTP。模板中使用 Supabase 提供的 `{{ .Token }}` 变量，与网站验证码输入框保持一致。
+在 Authentication 中开启邮箱确认。网站已兼容 Supabase 免费项目默认的“确认注册链接”：用户点击邮件链接后，回到网站即可完成登录，不需要额外配置 SMTP。
+
+如果后续接入自定义 SMTP，也可以把注册邮件改为 6 位验证码模板（使用 Supabase 的 `{{ .Token }}` 变量）；本地账号模式仍支持验证码流程。
 
 ## 2. 配置网站环境变量
 
@@ -28,9 +30,13 @@ SUPABASE_SERVICE_ROLE_KEY=<service-role-key>
 EMAIL_VERIFICATION_REQUIRED=true
 NEXT_PUBLIC_CONTACT_EMAIL=<公开联系邮箱>
 ADMIN_EMAILS=<可以访问数据看板的邮箱，多个用英文逗号分隔>
-AGENT_URL=https://<agent-domain>
-ASSET_TRACKER_API_URL=https://<asset-api-domain>
+DEEPSEEK_API_KEY=<DeepSeek API key>
+DATABASE_URL=<Supabase Postgres 连接串>
+ENVIRONMENT=production
+ALLOWED_ORIGINS=https://<site-domain>
 ```
+
+仓库使用 Vercel Services 同时部署网站、RAG Agent 与资产 API。Vercel 会根据服务名自动生成 `AGENT_URL` 和 `ASSET_TRACKER_API_URL`，无需手工填写两个后端域名。
 
 `SUPABASE_SERVICE_ROLE_KEY` 只能放在服务端环境变量，禁止添加 `NEXT_PUBLIC_` 前缀或写入浏览器代码。
 
@@ -45,12 +51,11 @@ Vercel Hobby 版不支持自定义事件，所以产品行为保存在 Supabase 
 
 ## 4. 配置两个 Python 服务
 
-Agent：
+两个 FastAPI 服务与网站在同一个 Vercel 项目中发布，生产环境变量共用。Agent 需要：
 
 ```text
 ENVIRONMENT=production
 DEEPSEEK_API_KEY=<key>
-ALLOWED_ORIGINS=https://<site-domain>
 RATE_LIMIT_PER_MINUTE=20
 ```
 
@@ -60,10 +65,9 @@ RATE_LIMIT_PER_MINUTE=20
 ENVIRONMENT=production
 DATABASE_URL=<Supabase Postgres connection string>
 AUTH_SECRET=<与网站完全一致>
-ALLOWED_ORIGINS=https://<site-domain>
 ```
 
-生产环境缺少密钥或 CORS 域名时，Python 服务会拒绝启动。
+在 Vercel 项目设置中把 Framework Preset 设为 **Services**。生产环境缺少密钥、数据库连接或 CORS 域名时，Python 服务会拒绝启动。
 
 ## 5. 旧数据迁移说明
 

@@ -47,8 +47,9 @@ export async function POST(request: Request) {
     }
     return NextResponse.json({
       ok: true,
-      message: "如果该邮箱已注册且未验证，我们已重新发送验证码",
+      message: "如果该邮箱已注册且未验证，我们已重新发送确认链接",
       delivery: "supabase",
+      verificationMode: "link",
     });
   }
 

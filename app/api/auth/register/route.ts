@@ -86,8 +86,9 @@ export async function POST(request: Request) {
     return NextResponse.json({
       needsVerification: true,
       email: result.user.email,
-      message: "验证码已发送，请查收邮箱完成验证",
+      message: "确认邮件已发送，请点击邮件中的链接完成验证",
       delivery: "supabase",
+      verificationMode: "link",
     });
   }
 
