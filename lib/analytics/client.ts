@@ -11,12 +11,14 @@ export function trackProductEvent(
   properties: ProductEventProperties = {},
 ): void {
   try {
-    void fetch("/api/analytics/events", {
+    void fetch("/api/product-events", {
       method: "POST",
       credentials: "include",
       keepalive: true,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ eventName, properties }),
+    }).catch(() => {
+      // 广告拦截或网络异常时静默失败，不影响正常使用。
     });
   } catch {
     // 统计失败不能影响正常使用。
