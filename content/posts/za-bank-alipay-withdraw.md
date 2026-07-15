@@ -105,7 +105,6 @@ featured: false
 
 ![](/content-assets/za-bank-alipay-withdraw/04-png.webp)
 
-如果你在注册香港支付宝、注册众安银行、出金过程中遇到任何问题，可以加入我的电报群，与群友交流，我也会在群中解答问题：https://t.me/nicoinvestmentfriends
 
 长期关注 Youtube 频道，了解更多关于美股长期/价值投资、出海捕鱼等内容：https://youtube.com/@nicogrowthz
 

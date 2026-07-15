@@ -122,6 +122,5 @@ Bybit Card 搭配香港支付宝出金其实是有额度的，我们从图中可
 ![](/content-assets/bybit-card-alipay-withdraw/04-jpg.webp)
 
 
-如果你在注册香港支付宝、绑定 Bybit Card、出金过程中遇到任何问题，可以加入我的电报群，与群友交流，我也会在群中解答问题：https://t.me/nicoinvestmentfriends
 
 这就是本篇教程的全部内容啦，如果对于你资金流转有帮助的话，麻烦帮忙点赞、收藏、转发，这是对我教程的最大支持，感谢！🙏

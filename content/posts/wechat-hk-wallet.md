@@ -145,5 +145,3 @@ featured: false
 
 3️⃣ 使用境外信用卡支付的话，会有额外 1-1.5% 的手续费率，所以不太建议用信用卡支付。
 ![](/content-assets/wechat-hk-wallet/08-png.webp)
-
-如果你在使用过程中遇到问题，可以加入电报群互相交流一下：https://t.me/nicoinvestmentfriends
