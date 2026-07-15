@@ -220,7 +220,7 @@ export default async function MetricsPage({ searchParams }: PageProps) {
                   return (
                     <div
                       key={point.day}
-                      className="group flex min-w-0 flex-1 flex-col items-center justify-end gap-2"
+                      className="group flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-2"
                       title={`${point.day}：PV ${point.page_views}，UV ${point.visitors}`}
                     >
                       <span className="hidden font-mono text-[10px] text-slate-500 group-hover:block sm:block">
@@ -336,7 +336,7 @@ export default async function MetricsPage({ searchParams }: PageProps) {
                   return (
                     <div
                       key={point.day}
-                      className="group flex min-w-0 flex-1 flex-col items-center justify-end gap-2"
+                      className="group flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-2"
                       title={`${point.day}：${point.questions} 次提问，${point.successes} 次成功，${point.failures} 次失败`}
                     >
                       <span className="hidden font-mono text-[10px] text-slate-500 group-hover:block sm:block">
