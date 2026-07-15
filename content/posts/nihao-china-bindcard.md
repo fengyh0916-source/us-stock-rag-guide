@@ -84,9 +84,3 @@ featured: false
 ---
 
 以上就是本篇教程的全部内容，欢迎大家点赞、收藏、转发，感谢支持🙏
-
-如果你在使用过程中遇到任何问题，可以加入电报群，在对应群组中交流一下：https://t.me/nicoinvestmentfriends
-
-- 我的 X 账号：https://x.com/tychozzz
-- 我的 Youtube 频道：https://www.youtube.com/@NicoGrowthz
-- 我的国内微信公众号：Nico Money，定期同步分享优质内容，方便国内朋友阅读，欢迎关注。

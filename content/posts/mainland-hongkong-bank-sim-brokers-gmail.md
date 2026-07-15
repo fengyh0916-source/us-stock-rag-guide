@@ -170,11 +170,3 @@ Club SIM 视频教程 https://youtu.be/cDqBZ3ylqcA?si=XoajDvzdobimb2R1
 以上这四件事情，一天之内可以全部搞定，绝大多数都是在线上 App 操作，非常简单。
 
 以上所有对应教程都可以在网站全局搜索框中，搜索关键字找到。
-
-⬇️ 如下平台，分享美股投资、加密投资、AI 体验、香港/境外银行、出入金、资金流转等经验心得、实操分享，欢迎关注
-
-X 账号 https://x.com/tychozzz
-
-Youtube 频道 https://www.youtube.com/@NicoGrowthz
-
-我的国内微信公众号 Nico Money，定期同步分享优质内容，方便国内朋友阅读，欢迎关注。

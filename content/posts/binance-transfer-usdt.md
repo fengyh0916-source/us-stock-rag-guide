@@ -259,13 +259,3 @@ featured: true
 ---
 
 以上就是本篇教程的全部内容，欢迎大家点赞、收藏、转发，感谢支持🙏
-
-我的投资导航网站，收录过往的文字教程，提供好用的投资工具，供大家从 0 到 1 一站式学习和检索：
-
-www.invest-nav.com
-
-⬇️ 如下平台，分享美股投资、加密投资、AI 体验、香港/境外银行、出入金、资金流转等经验心得、实操分享，欢迎关注：
-
-X 账号：https://x.com/tychozzz
-
-Youtube 频道：https://www.youtube.com/@NicoGrowthz
