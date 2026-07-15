@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, BookOpen, CheckCircle2, ChevronRight, Clock3 } from "lucide-react";
+import { BookOpen, CheckCircle2, ChevronRight, Clock3 } from "lucide-react";
 
 import type { Post, PostMeta, Series } from "@/lib/content/types";
 
@@ -14,14 +14,6 @@ type PostLayoutProps = {
 export default function PostLayout({ post, series, siblingPosts }: PostLayoutProps) {
   return (
     <div className="mx-auto flex w-full max-w-[1540px] flex-col gap-5 py-6 sm:gap-7 sm:py-10 lg:py-12">
-      <Link
-        className="inline-flex w-fit items-center gap-2 rounded-[8px] border border-slate-200 bg-white/90 px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
-        href={`/series/${series.slug}`}
-      >
-        <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-        返回系列
-      </Link>
-
       <nav
         aria-label="面包屑"
         className="flex min-w-0 flex-wrap items-center gap-1 text-xs font-medium text-slate-500 sm:gap-1.5 sm:text-sm"
