@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+.DS_Store
+frontend/node_modules/
+frontend/dist/
+backend/quote-bridge/node_modules/
+*.log
+.env
+.env.local
+.vercel

@@ -1,0 +1,71 @@
+import type { Series } from "./types";
+
+export const seriesRegistry: Series[] = [
+  {
+    slug: "hk-banks",
+    icon: "🏦",
+    title: "香港境外银行",
+    description: "香港及境外银行开户教程与问题解答",
+    postSlugs: [
+          "why-hk-bank-account",
+          "za-bank-account-opening",
+          "ifast-bank",
+          "mainland-hongkong-bank-sim-brokers-gmail",
+          "macau-ant-bank",
+          "n26-account-opening",
+          "cross-border-payment",
+          "airstar-bank-account",
+          "ant-bank-hk-account",
+          "bochk-account-opening",
+          "ccb-asia-account-opening",
+          "za-bank-stock-cashback",
+          "hk-bank-account-faq",
+          "hk-bank-account-vs-card-number",
+          "myfin-eur-wallet"
+    ],
+  },
+  {
+    slug: "us-brokers",
+    icon: "📈",
+    title: "美股券商",
+    description: "美股券商开户、入金和基础投资方式教程",
+    postSlugs: [
+          "us-broker-guide",
+          "fosun-securities",
+          "bitget-us-stock",
+          "charles-schwab-deposit",
+          "ibkr-account",
+          "charles-schwab-account",
+          "hongkong-stock-ipo",
+          "bit-broker-matrixport-open-account",
+          "safepal-fund-broker",
+          "cross-border-payment-funding",
+          "ifast-fund-longbridge",
+          "longbridge-usd-income",
+          "longbridge-account-opening"
+    ],
+  },
+  {
+    slug: "fund-transfer",
+    icon: "💱",
+    title: "出入金/资金流转",
+    description: "港币、美元、USDT 出入金和资金流转教程",
+    postSlugs: [
+          "wise-account",
+          "binance-transfer-usdt",
+          "hk-card-spending-in-mainland",
+          "fosun-virtual-asset",
+          "hk-unionpay-apple-pay",
+          "nihao-china-bindcard",
+          "wechat-hk-wallet",
+          "alipay-hk-ant-bank",
+          "za-bank-alipay-withdraw",
+          "za-bank-withdraw-to-mainland",
+          "apple-pay-hk-card-unionpay",
+          "bybit-card-alipay-withdraw",
+          "boc-pay-hongkong",
+          "panda-remit",
+          "cib-global-card"
+    ],
+  },
+];

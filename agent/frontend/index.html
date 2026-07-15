@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>美股投资扫盲助手</title>
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">美</div>
+        <div>
+          <h1>美股投资扫盲助手</h1>
+          <p class="subtitle">基于《中国人投资美股指南》的科普问答 · RAG Agent</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <span id="status-pill" class="pill pill-muted">检测中…</span>
+      </div>
+    </header>
+
+    <div class="banner">
+      ⚠️ 本服务<strong>仅供科普学习</strong>，不构成任何投资、税务或法律建议。政策与渠道变化快，请自行核实最新信息，重大决策请咨询专业人士。
+    </div>
+
+    <main class="main">
+      <aside class="sidebar">
+        <h2>小白常问</h2>
+        <div id="quick-list" class="quick-list"></div>
+        <div class="sidebar-foot">
+          <p>知识库来源：中国人投资美股指南（含 2026 加更）</p>
+          <p>模型默认：DeepSeek V4-Flash</p>
+        </div>
+      </aside>
+
+      <section class="chat-panel">
+        <div id="messages" class="messages" aria-live="polite"></div>
+        <form id="chat-form" class="composer">
+          <textarea
+            id="input"
+            rows="1"
+            placeholder="例如：什么是 CRS？大陆人怎么开美股相关账户？"
+            maxlength="2000"
+          ></textarea>
+          <button type="submit" id="send-btn">发送</button>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script src="/assets/app.js"></script>
+</body>
+</html>

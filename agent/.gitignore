@@ -1,0 +1,15 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+data/chroma/
+# Keep prebuilt BM25 chunks for zero-setup demo; re-run ingest after PDF changes
+data/index/*
+!data/index/chunks.json
+*.log
+.pytest_cache/
+node_modules/
+.idea/
+.vscode/

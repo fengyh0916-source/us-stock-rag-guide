@@ -1,0 +1,8 @@
+{
+  "name": "asset-tracker-quote-bridge",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "stock-api": "2.7.3"
+  }
+}

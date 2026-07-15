@@ -1,0 +1,48 @@
+{
+  "name": "us-stock-beginner-guide",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "ingest:content": "node scripts/ingest-content.mjs",
+    "optimize:images": "node scripts/optimize-content-images.mjs",
+    "agent:install": "cd agent && python3 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt",
+    "agent:dev": "cd agent && ./start.sh",
+    "agent:ingest": "cd agent/backend && ../.venv/bin/python scripts/ingest.py",
+    "agent:reindex": "cd agent/backend && ../.venv/bin/python scripts/ingest.py",
+    "asset-tracker:install": "cd asset-tracker && python3 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt && (cd frontend && npm install) && (cd backend/quote-bridge && npm install)",
+    "asset-tracker:api": "cd asset-tracker && .venv/bin/python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload",
+    "asset-tracker:build": "cd asset-tracker/frontend && npm run build",
+    "asset-tracker:dev": "cd asset-tracker && ./start.sh",
+    "services:start": "bash scripts/start-all.sh",
+    "services:stop": "bash scripts/stop-all.sh",
+    "health": "curl -s http://127.0.0.1:3000/api/health",
+    "preflight:production": "node scripts/preflight.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.110.2",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.3.1",
+    "gray-matter": "4.0.3",
+    "lucide-react": "1.24.0",
+    "next": "16.2.10",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "remark": "15.0.1",
+    "remark-html": "16.0.1",
+    "stock-api": "^2.7.3"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.1",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.2.10",
+    "postcss": "8.5.18",
+    "tailwindcss": "3.4.19",
+    "typescript": "6.0.3"
+  }
+}
