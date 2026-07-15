@@ -49,3 +49,5 @@ agent/eval/results/*.json
 agent/eval/results/eval_report_*.md
 agent/eval/results/eval_v2_report_*.md
 agent/eval/results/full_rag_report_*.md
+.vercel
+.env*

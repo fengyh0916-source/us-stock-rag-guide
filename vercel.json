@@ -1,23 +1,64 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run preflight:production && npm run build",
-  "experimentalServices": {
+  "services": {
     "web": {
-      "entrypoint": ".",
-      "routePrefix": "/"
+      "root": ".",
+      "framework": "nextjs",
+      "buildCommand": "npm run preflight:production && npm run build"
     },
     "agent": {
-      "entrypoint": "agent/backend/index.py",
-      "routePrefix": "/agent-api",
-      "maxDuration": 300,
-      "includeFiles": [
-        "agent/data/index/**"
+      "root": "agent/",
+      "framework": "fastapi",
+      "entrypoint": "backend.app.main:app",
+      "routes": [
+        {
+          "src": "/agent-api/(.*)",
+          "transforms": [
+            {
+              "type": "request.path",
+              "op": "set",
+              "args": "/$1"
+            }
+          ]
+        }
       ]
     },
     "asset_tracker_api": {
-      "entrypoint": "asset-tracker/backend/index.py",
-      "routePrefix": "/asset-api",
-      "maxDuration": 300
+      "root": "asset-tracker/backend/",
+      "framework": "fastapi",
+      "entrypoint": "index:app",
+      "routes": [
+        {
+          "src": "/asset-api/(.*)",
+          "transforms": [
+            {
+              "type": "request.path",
+              "op": "set",
+              "args": "/$1"
+            }
+          ]
+        }
+      ]
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/agent-api/(.*)",
+      "destination": {
+        "service": "agent"
+      }
+    },
+    {
+      "source": "/asset-api/(.*)",
+      "destination": {
+        "service": "asset_tracker_api"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "web"
+      }
+    }
+  ]
 }

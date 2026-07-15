@@ -34,9 +34,11 @@ DEEPSEEK_API_KEY=<DeepSeek API key>
 DATABASE_URL=<Supabase Postgres 连接串>
 ENVIRONMENT=production
 ALLOWED_ORIGINS=https://<site-domain>
+AGENT_URL=https://<site-domain>/agent-api
+ASSET_TRACKER_API_URL=https://<site-domain>/asset-api
 ```
 
-仓库使用 Vercel Services 同时部署网站、RAG Agent 与资产 API。Vercel 会根据服务名自动生成 `AGENT_URL` 和 `ASSET_TRACKER_API_URL`，无需手工填写两个后端域名。
+仓库使用 Vercel Services 同时部署网站、RAG Agent 与资产 API。`vercel.json` 会把 `/agent-api/*` 和 `/asset-api/*` 路由到对应的 FastAPI 服务；两个服务 URL 需要按上面的同域路径填写。
 
 `SUPABASE_SERVICE_ROLE_KEY` 只能放在服务端环境变量，禁止添加 `NEXT_PUBLIC_` 前缀或写入浏览器代码。
 
